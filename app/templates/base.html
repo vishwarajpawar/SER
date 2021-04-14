@@ -1,0 +1,69 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="box">
+    <div class="recorder">
+      <h2>Recorder</h2>
+      <hr>
+      <div id="controls">
+        <button class="rec-btn" id="recordButton">Record</button>
+        <button class="rec-btn" id="pauseButton" disabled>Pause</button>
+        <button class="rec-btn" id="stopButton" disabled>Stop</button>
+      </div>
+      <div id="formats">Format: start recording to see sample rate</div>
+      <p><strong>Recordings:</strong></p>
+      <ol id="recordingsList"></ol>
+      <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+      <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+      <script src="static/js/app.js"></script>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="row">
+      <div class="col">
+        <h2>Upload Audio File</h2>
+        <hr />
+
+        <form action="/" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label>Select File:</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="audio" id="audio" />
+              <label class="custom-file-label" for="aduio">Select Audio File...</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-left">
+              <button type="reset" class="btn btn-danger">Reset</button>
+            </div>
+            <div class="col text-right">
+              <button type="submit" class="btn btn-primary" pull-right>
+                Submit
+              </button>
+              <br>
+              <br>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col">
+        <form action=/prediction method="POST">
+          <label>Choose a File:</label>
+          <select name="file" class="custom-select">
+            {% for file in files %}
+            <option value="{{ file }}">{{ file }}</option>
+            {% endfor%}
+          </select>
+          <button type="submit" class="btn btn-primary btn-lg btn-block bb">Recognize</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

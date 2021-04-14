@@ -1,0 +1,49 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block main %}
+  
+{% endblock %}
+
+{% block content %}
+
+ <div class="container">
+    <div class="box">
+        <h1>Hello! {{ users.username }}</h1>
+        <hr>
+        <h4>Name: {{users.first_name}} {{ users.last_name}}</h4>
+        <br>
+        <h4>Email: {{users.email}}</h4>
+        <br>
+        <h1>History: </h1>
+        {% if histories|length < 1 %}
+        <h3> There is no history. Please use the SER </h3>
+        {% else  %}
+
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">File Name</th>
+      <th scope="col">Emotion</th>
+      <th scope="col">Gender</th>
+      <th scope="col"><a class="btn-sm btn-danger" href="/deleteall/{{ histories[0].data_id }}" style="color: black;">Delete all</a></th>
+    </tr>
+  </thead>
+  <tbody>
+{% for history in histories %}
+    <tr>
+      <th scope="row">{{history.id}}</th>
+      <td>{{ history.file_name}}</td>
+      <td>{{ history.emotion}}</td>
+      <td>{{ history.gender}}</td>
+      <td><a class="btn-sm btn-warning " href="/delete/{{ history.id }}" style="color: black;">Delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
+        {% endif%}
+      </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static',filename='/css/style.css')}}"
+    />
+
+    <title>{% block title%}{% endblock %}</title>
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    
+   <div class="jumbotron">
+      <h1>Speech Emotion Recognition Model</h1>
+    </div>
+    <nav class="navbar navbar-expand-md navbar-light lined " style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="/">SER</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto ">
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('home_page')}}">Home </a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('about')}}">about</a> 
+      </li>
+      {% if current_user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" >Welcome,{{ current_user.username }}</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{{url_for('profile')}}">Profile</a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link" href="{{url_for('logout_page')}}">Logout</a>
+      </li>
+      {% else %}
+       <li class="nav-item">
+        <a class="nav-link" href="{{url_for('sign_up')}}">Sign Up</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('sign_in')}}">Sign In</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">admin</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+ 
+  <main>
+   
+   {% block main %}{% endblock %}
+  </main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+           {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                  <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  {{ message }}
+              </div>
+           {% endfor %}
+        {% endif %}
+      {% endwith %}
+     {% block content %}
+
+    {% endblock %}
+    
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>
