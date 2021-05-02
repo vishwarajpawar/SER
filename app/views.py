@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 
 app.permanent_session_lifetime = timedelta(minutes=5)   
 
-app.config["AUDIO_UPLOAD"]="E:/New folder (2)/app/input"
+app.config["AUDIO_UPLOAD"]="input"
 app.config["ALLOWED_AUDIO_EXTENSION"]="WAV"
 app.config['SECRET_KEY'] = 'ser_key'
 def allowed_audio(filename):

@@ -1,0 +1,30 @@
+main appliction app.
+
+app directory:- which containes 1. app
+				2. env
+				3.input
+				4.run.py
+				
+app directoiry:- 1.view.py
+		 -main routes Scripte
+		 2.model.py	
+		 -CNN model Scripte which load CNN model from Json flil, loades weights from h5
+		 -preforms MFCC frature extraction on input .wav
+		 -preforms opretions and predicts the oputput
+		3.forms 
+		  - Script to create tow forms Sign-up and Sign-in	
+		  - Uses WTForms 
+		4.dbmodel.py
+		 -this files create two classes call User and History
+		 - uses SQLAlcamy to do database opretio	
+		Templates:
+		containte All HTML files 1.Base.html
+					 2.predictions.html
+					 3.sign-in
+					 4.sign-up
+		all web files Uses Jinaj and extends public_template.html a basic boilerplate
+	
+		
+
+
+
