@@ -1,18 +1,23 @@
+from io import BytesIO
 from app import app
 from flask import render_template, request, redirect,url_for,flash, session
 from app.forms import SignUp,SignIn
 from app.dbmodels import User,History
 from datetime import timedelta
 from app.model import dlmodel
+
+from app.implementation_model import ndlmodel
+
 from app import db
 from flask_login import login_user,logout_user,login_required
 import os   
-
+import base64
 from werkzeug.utils import secure_filename
 
-app.permanent_session_lifetime = timedelta(minutes=5)   
+app.permanent_session_lifetime = timedelta(minutes=60)   
 
 app.config["AUDIO_UPLOAD"]="input"
+PLOT_UPLOAD = "app/static/plot"
 app.config["ALLOWED_AUDIO_EXTENSION"]="WAV"
 app.config['SECRET_KEY'] = 'ser_key'
 def allowed_audio(filename):
@@ -30,7 +35,16 @@ def allowed_audio(filename):
 @app.route('/home')
 def home_page():
 
+    dir = 'app/static/plot'
+    for f in os.listdir(dir):
+      os.remove(os.path.join(dir, f))
+
     if request.method == "POST":
+
+        dir = app.config["AUDIO_UPLOAD"]
+        for f in os.listdir(dir):
+            os.remove(os.path.join(dir, f))
+
         if request.files:
             audio = request.files["audio"]
             if audio.filename == "":
@@ -136,6 +150,7 @@ def prediction():
             return render_template("prediction.html",predictions=predictions)
         
 @app.route('/delete/<int:id>')
+@login_required
 def delete(id):
 
     history_to_delete=History.query.get_or_404(id)
@@ -148,10 +163,66 @@ def delete(id):
         flash(f"There is Problem deleting the history")
         return redirect(url_for('profile'))
 
+
 @app.route('/deleteall/<int:data_id>')
+@login_required
 def delete_all(data_id):
 
     history = History.query.filter_by(data_id=data_id).delete()
     flash(f"{ history} histories are deleted",category='success')
     db.session.commit()
     return redirect(url_for('profile'))
+
+
+
+@app.route('/new', methods=["GET", "POST"])
+@login_required
+def new_prediction():
+
+    precent,predictions, plot = ndlmodel()
+    
+    predict = list(map(lambda x: x.split("_"), predictions))
+    
+    genders = set()
+    emotions = set()
+
+    for pre in predict:
+        genders.add(pre[0])
+        emotions.add(pre[-1])
+
+    length = len(emotions)
+    
+    
+    dir = 'app/static/plot'
+    for f in os.listdir(dir):
+      os.remove(os.path.join(dir, f))
+
+    plot.figure.savefig('app/static/plot/plot.png')
+    plots = 'plot/plot.png'
+
+    emotions = list(emotions)
+
+    for f in os.listdir(PLOT_UPLOAD):
+        print(f)
+
+    if "user" in session:
+        
+        users = User.query.filter_by(username=session["user"]).first()
+        
+        filename=''
+        dir = app.config["AUDIO_UPLOAD"]
+        for f in os.listdir(dir):
+                filename=f
+
+        history_of_user = History(file_name=filename,
+                                  emotion=', '.join([str(elem) for elem in emotions]),
+                                  gender=', '.join([str(elem)
+                                                  for elem in genders]),
+                                  data_id=users.id)
+        db.session.add(history_of_user)
+        db.session.commit()
+        print("data added to DB")
+
+
+    return render_template("prediction - new.html", genders=genders, emotions=emotions , precent=precent, length=length, plot=plots)
+    

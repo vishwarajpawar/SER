@@ -29,15 +29,16 @@ app directoiry:- 1.view.py
 					 3.sign-in
 					 4.sign-up
 		all web files Uses Jinaj and extends public_template.html a basic boilerplate
+***************************************************************************************************************
 
-
-	Steps to run the project:
+Steps to run the project:
 	
-	1.extract the project
+	1. extract the project
 	2. open terminal change directory to app
-	3. activate the enviroment by typing command:  ./app/env/Scripts/activate.ps1 (Use powershell) if you are using window
-	4. after activating enviroment run the file python run.py
-	5.go to the link 127.0.0.1.:5000/
+	4.install "virtualenv" packege, create virtual enviroment on app directory 
+	5. activate the enviroment by typing command:  ./app/env/Scripts/activate.ps1 (Use powershell) if you are using window
+	6. after activating enviroment run the file python run.py
+	7. go to the link 127.0.0.1.:5000/
 	
 	create or use existing username: User2 with password: 1234567
 	
@@ -48,7 +49,7 @@ if want to use it on linux
 	delete the directory env
 	
 	steps: install "pip install virtualenv"
-		2. create the a virtualenviroment using command "vritualenv env"
+		2. create the a virtualenviroment using command "python3 -m vritualenv env"
 		3.if you have multiple versions use : python -m virtualenv --python python37 env
 		4. use command source /env/bin/activate
 

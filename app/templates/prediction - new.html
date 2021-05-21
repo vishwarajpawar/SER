@@ -1,0 +1,96 @@
+{% extends "public/templates/public_template.html" %}
+{% block head %}
+<style>
+  .result {
+    height: 100%;
+    width: auto;
+    margin: 50px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="box">
+
+    <div class="result continer-fluid">
+
+      <h1>Prediction Results:</h1>
+
+      <div class=" row my-5">
+
+        <div class="clo-md-6 col-lg-6 col-lx">
+          <h4> Probable Genders: </h4>
+          <div class="d-flex justify-content-center">
+
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Sr No.</th>
+                  <th scope="col">Probable Genders</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if genders %}
+                {% for gd in genders %}
+
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{{ gd }}</td>
+                </tr>
+
+                {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+
+
+          </div>
+
+        </div>
+
+
+        <div class="clo-md-6 col-lg-6 col-lx ">
+          <h4> Probable Emotions: </h4>
+          <table class="table table-bordered  table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Sr No.</th>
+                <th scope="col">Probable Emotions</th>
+                <th scope="col">Emotions Percantage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if emotions %}
+              {% for i in range(length) %}
+
+              <tr>
+                <th scope="row">{{ i }}</th>
+                <td>{{ emotions[i] }}</td>
+                <td>{{ '%0.2f' | format(precent[i] | float) }}%</td>
+              </tr>
+
+              {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+
+
+        </div>
+
+      </div>
+
+      <br>
+      <h1>Predictions pie chart:</h1>
+
+      <div class="row d-flex  justify-content-center items-align-center my-5 ">
+      
+        <img src="{{ url_for('static', filename=plot) }}" alt="plot" width="500" height="500">
+      
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock%}
