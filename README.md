@@ -1,4 +1,4 @@
 
 # SER
-CNN Project deployment repo
+CNN Project  repo
 
